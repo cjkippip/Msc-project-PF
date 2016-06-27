@@ -1,0 +1,41 @@
+%% Parameter
+clear, clc;
+
+% Global variables declaration
+global N;
+global a;
+global covParaCoefVect;
+
+state_dim = 2;                      % state dimension
+para_dim = 4;                       % parameter dimension
+ext_state_dim = state_dim+para_dim; % extended dimension
+obs_dim = 2;                        % 1 and 2 state can be observed
+N = 3000;                           % number of particles 
+
+
+e = 0.88;
+a = (3*e-1)/(2*e);
+covParaCoef = 1-a^2;
+covParaCoefVect = [covParaCoef;covParaCoef;covParaCoef;covParaCoef];
+
+% Convariance of state
+covState1 = 100;
+covState2 = 50;
+
+% Convariance of measurement
+covMeasure = 10000;
+
+% time length and sampling rate
+endT = 30;
+N_step = 301;
+tspan = linspace(0,endT,N_step);
+delta_t = tspan(2)-tspan(1);
+T = length(tspan); % iteration time
+
+
+% initial particles of parameters
+P_Para=ones(para_dim,N);
+P_Para(1,:)=6+sqrt(2)*randn(1,N);
+P_Para(2,:)=6+sqrt(2)*randn(1,N);
+P_Para(3,:)=6+sqrt(2)*randn(1,N);
+P_Para(4,:)=6+sqrt(2)*randn(1,N);
